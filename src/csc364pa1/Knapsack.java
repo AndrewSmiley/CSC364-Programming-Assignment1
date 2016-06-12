@@ -18,7 +18,7 @@ public class Knapsack {
             Arrays.fill(tmp, 0);
             K[i] =  tmp;
         }
-
+        //iterate n^2
         for (int j =0; j < numberOfValues+1; j++){
             for (int w=0; w< maxWeight+1;w++){
                 if (j==0||w==0){
@@ -33,6 +33,22 @@ public class Knapsack {
             }
 
         }
+
+        //so now we get the number of items used n...1
+        int totalItems =0;
+        int tmpWeight =maxWeight;
+        for (int i  = numberOfValues; i > 0; i--){
+            int itemWeight = objectWeights[i-1];
+            if (K[i][tmpWeight] == K[i-1][tmpWeight]){
+                continue;
+            }else{
+                tmpWeight = tmpWeight-itemWeight;
+                totalItems++;
+            }
+
+        }
+
+        //ok so now we need to find the totoal number of items
 
         System.out.println(K[numberOfValues][maxWeight]);
 
