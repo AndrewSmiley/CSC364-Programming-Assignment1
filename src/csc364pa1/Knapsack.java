@@ -1,6 +1,9 @@
 package csc364pa1;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -108,13 +111,15 @@ Project2 4 16
                 "\nNumber of projects chosen: "+usedProjects.size()+"\nTotal Profit: "+K[numberOfValues][maxWeight]+"\n\n";
         System.out.print(output);
         for (int i =0; i < usedProjects.size(); i++){
-            System.out.println(projects.get(usedProjects.get(i))+" "+objectValues.get(usedProjects.get(i)));
+            output = output+projects.get(usedProjects.get(i))+" "+objectValues.get(usedProjects.get(i))+"\n";
+
         }
-
-//        System.out.println("Total items: "+totalItems+"\nTotal value: "+K[numberOfValues][maxWeight]);
-
-
-
+        try {
+            Files.write(Paths.get(outputFile), output.getBytes(), StandardOpenOption.CREATE_NEW);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(output);
 
     }
 }
