@@ -1,12 +1,54 @@
 __author__ = 'pridemai'
 
-class KnapsackData:
-    def __init__(self, pname, weeks, profit):
-        self.project_name = pname
-        self.weeks=weeks
-        self.profit = profit
-f = open("KnapsackData1.txt").read()
-data = [KnapsackData(l.split(" ")[0], int(l.split(" ")[1]), int(l.split(" ")[2])) for l in f.split("\r\n")]
+
+
+# data = [3,2,3,8,13,10,12,5]
+data= "zebras"
+# _current_max = data[0]
+previous=[-1]*len(data)
+scores = [1]*len(data)
+_max_value =data[0]
+_max_value_index = 0
+for i in range(1, len(data)):
+    _last_max_index=-1
+    for j in range(0,i):
+        if scores[i] < scores[j] +1 and data[i] > data[j] :
+            scores[i] = scores[j]+1
+            _last_max_index = j
+        if _last_max_index > -1:
+            previous[i] = _last_max_index
+#ok so now we need to get the index of the highest score
+for i in range(1,len(scores)):
+    if previous[i] >= _max_value_index:
+        _max_value_index = i
+finished = []
+while _max_value_index > -1:
+    finished.append(data[_max_value_index])
+    _max_value_index = previous[_max_value_index]
+
+
+
+#now we want the values
+# for n in reversed(range(len()))
+
+#this works kind of
+# previous[i]= scores[j]
+# max = lis[0]
+# for i in range(1, len(data)):
+#     if lis[i] > max:
+#         max = lis[i]
+
+print '  '.join([str(_) for _ in data])
+print '  '.join([str(_) for _ in scores])
+print '  '.join([str(_) for _ in previous])
+print data
+# class KnapsackData:
+#     def __init__(self, pname, weeks, profit):
+#         self.project_name = pname
+#         self.weeks=weeks
+#         self.profit = profit
+# f = open("KnapsackData1.txt").read()
+# data = [KnapsackData(l.split(" ")[0], int(l.split(" ")[1]), int(l.split(" ")[2])) for l in f.split("\r\n")]
 # _max_weight = None
 # _number_of_items = 0
 # _list_of_weights = []
@@ -15,34 +57,34 @@ data = [KnapsackData(l.split(" ")[0], int(l.split(" ")[1]), int(l.split(" ")[2])
 
 # A Dynamic Programming based Python Program for 0-1 Knapsack problem
 # Returns the maximum value that can be put in a knapsack of capacity W
-def knapSack(max_weight, object_weights, object_values, number_of_objects):
-
-    K = [[0 for w in range(max_weight+1)] for j in range(number_of_objects+1)]
-    # for j in range(1, number_of_objects):
-    #     for w in range(1, max_weight):
-    #         if object_weights[j] > max_weight:
-    #             K[w][j]=K[w][j-1]
-    #         else:
-    #             K[w][j]= max(K[w-object_weights[j]][j-1]+object_values[j],K[w][j-1])
-    # # #
-    # Build table K[][] in bottom up manner
-    for j in range(number_of_objects+1):
-        for w in range(max_weight+1):
-            if j==0 or w==0:
-                K[j][w] = 0
-            elif object_weights[j-1] <= w:
-                K[j][w] = max(object_values[j-1] + K[j-1][w-object_weights[j-1]],  K[j-1][w])
-            else:
-                K[j][w] = K[j-1][w]
-    #
-    # return K[number_of_objects][max_weight]
-    return K[number_of_objects][max_weight]
-# Driver program to test above function
-object_values =[30,14,16,9]
-object_weights =  [6,3,4,2]
-max_weight = 10
-n = len(object_values)
-print(knapSack(max_weight,object_weights,object_values, n))
+# def knapSack(max_weight, object_weights, object_values, number_of_objects):
+#
+#     K = [[0 for w in range(max_weight+1)] for j in range(number_of_objects+1)]
+#     # for j in range(1, number_of_objects):
+#     #     for w in range(1, max_weight):
+#     #         if object_weights[j] > max_weight:
+#     #             K[w][j]=K[w][j-1]
+#     #         else:
+#     #             K[w][j]= max(K[w-object_weights[j]][j-1]+object_values[j],K[w][j-1])
+#     # # #
+#     # Build table K[][] in bottom up manner
+#     for j in range(number_of_objects+1):
+#         for w in range(max_weight+1):
+#             if j==0 or w==0:
+#                 K[j][w] = 0
+#             elif object_weights[j-1] <= w:
+#                 K[j][w] = max(object_values[j-1] + K[j-1][w-object_weights[j-1]],  K[j-1][w])
+#             else:
+#                 K[j][w] = K[j-1][w]
+#     #
+#     # return K[number_of_objects][max_weight]
+#     return K[number_of_objects][max_weight]
+# # Driver program to test above function
+# object_values =[30,14,16,9]
+# object_weights =  [6,3,4,2]
+# max_weight = 10
+# n = len(object_values)
+# print(knapSack(max_weight,object_weights,object_values, n))
 
 # # data = [3,2,3,8,13,10,12,5]
 # longest_sequence=[]
@@ -76,57 +118,56 @@ print(knapSack(max_weight,object_weights,object_values, n))
 #         has_place = False
 #
 #         #see if it's greater than the last one
-        # if True:
-        #     #if it's not, iterate through to see where it belongs
-        #     j = i
-        #     has_place = False
-        #     while j > 0:
-        #         if data[i] >= data[j-1]:
-        #             if data[i] > _max_val and _max_val > data[j-1]:
-        #                 print "first piece hit"
-        #                 has_place=True
-        #                 j = j-1
-        #                 longest_sequence.append(ReccuranceCharacter(data[i],longest_sequence[_max_pos].score+1,longest_sequence[_max_pos].previous+1 ))
-        #                 _max_val=data[i]
-        #                 _max_pos = i
-        #                 break
-        #             elif data[i] > _max_val:
-        #                 print "middle piece hit"
-        #                 has_place=True
-        #                 _max_val=data[i]
-        #                 _max_pos = i
-        #                 longest_sequence.append(ReccuranceCharacter(data[i],longest_sequence[j-1].score+1,1 if longest_sequence[j-1].previous == -1 else longest_sequence[j-1].previous+1 ))
-        #                 break
-        #             elif data[i] > data[j-1]:
-        #                 has_place=True
-        #                 longest_sequence.append(ReccuranceCharacter(data[i],longest_sequence[j-1].score+1,1 if longest_sequence[j-1].previous == -1 else longest_sequence[j-1].previous+1 ))
-        #                 break
-        #         else:
-        #             j = j-1
-        #     if not has_place:
-        #         longest_sequence.append(ReccuranceCharacter(data[i], 1, -1))
-        # else:
-        #     #if it's not, iterate through to see where it belongs
-        #     j = i
-        #     has_place = False
-        #     while j > 0:
-        #         if data[i] >= data[j-1]:
-        #             if data[i] > _max_val and _max_val > data[j-1]:
-        #                 j = j-1
-        #                 _max_val=data[i]
-        #                 _max_pos = i
-        #
-        #             elif data[i] > _max_val or data[i] > data[j-1]:
-        #                 has_place=True
-        #                 longest_sequence.append(ReccuranceCharacter(data[i],longest_sequence[j-1].score+1,longest_sequence[j-1].previous+1 ))
-        #                 break
-        #
-        #         else:
-        #             j = j-1
-        #     if not has_place:
-        #         longest_sequence.append(ReccuranceCharacter(data[i], 1, -1))
-        # i = i+1
-print ""
+# if True:
+#     #if it's not, iterate through to see where it belongs
+#     j = i
+#     has_place = False
+#     while j > 0:
+#         if data[i] >= data[j-1]:
+#             if data[i] > _max_val and _max_val > data[j-1]:
+#                 print "first piece hit"
+#                 has_place=True
+#                 j = j-1
+#                 longest_sequence.append(ReccuranceCharacter(data[i],longest_sequence[_max_pos].score+1,longest_sequence[_max_pos].previous+1 ))
+#                 _max_val=data[i]
+#                 _max_pos = i
+#                 break
+#             elif data[i] > _max_val:
+#                 print "middle piece hit"
+#                 has_place=True
+#                 _max_val=data[i]
+#                 _max_pos = i
+#                 longest_sequence.append(ReccuranceCharacter(data[i],longest_sequence[j-1].score+1,1 if longest_sequence[j-1].previous == -1 else longest_sequence[j-1].previous+1 ))
+#                 break
+#             elif data[i] > data[j-1]:
+#                 has_place=True
+#                 longest_sequence.append(ReccuranceCharacter(data[i],longest_sequence[j-1].score+1,1 if longest_sequence[j-1].previous == -1 else longest_sequence[j-1].previous+1 ))
+#                 break
+#         else:
+#             j = j-1
+#     if not has_place:
+#         longest_sequence.append(ReccuranceCharacter(data[i], 1, -1))
+# else:
+#     #if it's not, iterate through to see where it belongs
+#     j = i
+#     has_place = False
+#     while j > 0:
+#         if data[i] >= data[j-1]:
+#             if data[i] > _max_val and _max_val > data[j-1]:
+#                 j = j-1
+#                 _max_val=data[i]
+#                 _max_pos = i
+#
+#             elif data[i] > _max_val or data[i] > data[j-1]:
+#                 has_place=True
+#                 longest_sequence.append(ReccuranceCharacter(data[i],longest_sequence[j-1].score+1,longest_sequence[j-1].previous+1 ))
+#                 break
+#
+#         else:
+#             j = j-1
+#     if not has_place:
+#         longest_sequence.append(ReccuranceCharacter(data[i], 1, -1))
+# i = i+1
 # for c in data:
 #     #base case
 #     if index==0:
@@ -170,31 +211,26 @@ print ""
 #                 longest_sequence.append(ReccuranceCharacter(c, 1,-1))
 #
 #             index = index+1        # if c < longest_sequence[index-1].value:
-        #     i = index
-        #     has_previous = False
-        #     while i > 0:
-        #         if c > longest_sequence[i -1].value:
-        #             longest_sequence.append(ReccuranceCharacter(c, longest_sequence[i -1].score+1, longest_sequence[i -1].previous+1))
-        #             has_previous = True
-        #             break
-        #         else:
-        #             i = i-1
-        #     if not has_previous:
-        #         longest_sequence.append(ReccuranceCharacter(c, 1,-1))
-        # else:
-        #     if c > _max_val:
-        #         i  = index
-        #         longest_sequence.append(ReccuranceCharacter(c, longest_sequence[_max_pos].score+1, _max_pos))
-        #         _max_pos = index
-        #         _max_val = c
-        #     else:
-        #         longest_sequence.append(ReccuranceCharacter(c, longest_sequence[index-1].score+1,longest_sequence[index-1].previous+1 if longest_sequence[index-1].previous > -1 else longest_sequence[index-1].previous+2))
-        # index = index+1
-
-
-
-print ""
-
+#     i = index
+#     has_previous = False
+#     while i > 0:
+#         if c > longest_sequence[i -1].value:
+#             longest_sequence.append(ReccuranceCharacter(c, longest_sequence[i -1].score+1, longest_sequence[i -1].previous+1))
+#             has_previous = True
+#             break
+#         else:
+#             i = i-1
+#     if not has_previous:
+#         longest_sequence.append(ReccuranceCharacter(c, 1,-1))
+# else:
+#     if c > _max_val:
+#         i  = index
+#         longest_sequence.append(ReccuranceCharacter(c, longest_sequence[_max_pos].score+1, _max_pos))
+#         _max_pos = index
+#         _max_val = c
+#     else:
+#         longest_sequence.append(ReccuranceCharacter(c, longest_sequence[index-1].score+1,longest_sequence[index-1].previous+1 if longest_sequence[index-1].previous > -1 else longest_sequence[index-1].previous+2))
+# index = index+1
 # values=[]
 # scores = []
 # prevs = []
